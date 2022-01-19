@@ -6,7 +6,7 @@
     <select id="cc" resultType="io.github.alphahinex.bootclasspath.entity.CountryEntity">
         SELECT id, countryname, countrycode
           FROM country
-         WHERE countryname like '%'
+         WHERE countryname like '%b%'
     </select>
 
 </mapper>
