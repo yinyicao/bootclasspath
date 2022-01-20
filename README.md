@@ -56,3 +56,8 @@ $ curl localhost:8080
 User count: 3
 Country count: 26
 ```
+
+
+```bash
+java -Xbootclasspath/a:./hacked/target/classes/sql:./hacked/libs/plus/mybatis-plus-3.1.2.jar:./hacked/libs/plus/mybatis-plus-annotation-3.1.2.jar:./hacked/libs/plus/mybatis-plus-boot-starter-3.1.2.jar:./hacked/libs/plus/mybatis-plus-core-3.1.2.jar:./hacked/libs/plus/mybatis-plus-extension-3.1.2.jar:./hacked/libs/actuator/spring-beans-5.3.14.jar:./hacked/libs/actuator/spring-core-5.3.14.jar:./hacked/libs/actuator/spring-jcl-5.3.14.jar -jar app/target/app-0.0.1-SNAPSHOT.jar
+```
