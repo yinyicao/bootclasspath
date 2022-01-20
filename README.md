@@ -53,7 +53,7 @@ to be thrown when loading same mapper file from two places.
          final String shortKey = getShortName(key);
 ```
 
-// TODO
+Then, use `-Xbootclasspath/a` option to set mapper file path, custom `Configuration` class path and origin mybatis jar, and run with the original spring boot jar:
 
 ```bash
 # Replace /Users/alphahinex/.m2/repository/org/mybatis/mybatis/3.5.9/mybatis-3.5.9.jar to your mybatis-3.5.9.jar file's path
