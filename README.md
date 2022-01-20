@@ -10,7 +10,7 @@ Package first:
 
 ```bash
 # In project root path
-$ mvn clean package
+$ mvn clean package -DskipTests
 ```
 
 Run spring boot app:
