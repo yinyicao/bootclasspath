@@ -37,7 +37,21 @@ This time, we need to customize mybatis `org.apache.ibatis.session.Configuration
 to avoid `java.lang.IllegalArgumentException: Mapped Statements collection already contains value xxx` exception 
 to be thrown when loading same mapper file from two places.
 
-
+```diff
+@@ -1013,9 +1013,11 @@ public class Configuration {
+     @Override
+     @SuppressWarnings("unchecked")
+     public V put(String key, V value) {
++      System.out.println("HACKED::Put key [" + key + "] with value [" + (value instanceof MappedStatement ? ((MappedStatement)value).getResource() : value) + "]");
+       if (containsKey(key)) {
+-        throw new IllegalArgumentException(name + " already contains value for " + key
++        System.out.println(name + " already contains value for " + key
+             + (conflictMessageProducer == null ? "" : conflictMessageProducer.apply(super.get(key), value)));
++        return null;
+       }
+       if (key.contains(".")) {
+         final String shortKey = getShortName(key);
+```
 
 // TODO
 
