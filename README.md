@@ -27,37 +27,31 @@ User count: 3
 Country count: 151
 ```
 
-Case 1
-------
+Only append changed mappers
+---------------------------
 
-Use custom mybatis class(`org.apache.ibatis.executor.statement.PreparedStatementHandler`) to override the same on in `mybatis-3.5.9.jar`.
+Beyond Case 2 in main branch, which need to place all mapper files outside the jar (whether changed or not),
+we could append modified mapper files only, leave unchanged mapper files still in the jar.
+
+This time, we need to customize mybatis `org.apache.ibatis.session.Configuration` 
+to avoid `java.lang.IllegalArgumentException: Mapped Statements collection already contains value xxx` exception 
+to be thrown when loading same mapper file from two places.
+
+
+
+// TODO
 
 ```bash
 # Replace /Users/alphahinex/.m2/repository/org/mybatis/mybatis/3.5.9/mybatis-3.5.9.jar to your mybatis-3.5.9.jar file's path
-$ java -Xbootclasspath/a:./hacked/target/classes:/Users/alphahinex/.m2/repository/org/mybatis/mybatis/3.5.9/mybatis-3.5.9.jar -jar app/target/app-0.0.1-SNAPSHOT.jar
-```
-
-Access http://localhost:8080 and should find custom message `HACKED::PreparedStatementHandler.query` in console.
-
-Case 2
-------
-
-Use modified `CountryMapper.xml` to change sql in jar.
-
-```bash
-$ java -Xbootclasspath/a:./hacked/target/classes/sql -jar app/target/app-0.0.1-SNAPSHOT.jar
+$ java -Xbootclasspath/a:./hacked/target/classes/sql:./hacked/target/classes:/Users/alphahinex/.m2/repository/org/mybatis/mybatis/3.5.9/mybatis-3.5.9.jar -jar app/target/app-0.0.1-SNAPSHOT.jar --mybatis.mapper-locations=classpath*:db/mapper/*Mapper.xml
 ```
 
 Access http://localhost:8080 , notice that `Country count` changed from 151 to 26, 
-because sql in `hacked/src/main/resources/sql/db/mapper/CountryMapper.xml` is different with that in `app/src/main/resources/db/mapper/CountryMapper.xml`.
+and there is only `hacked/src/main/resources/sql/db/mapper/CountryMapper.xml` one mapper file.
+Case 2 has all (two) mapper files here.
 
 ```bash
 $ curl localhost:8080
 User count: 3
 Country count: 26
-```
-
-
-```bash
-java -Xbootclasspath/a:./hacked/target/classes/sql:./hacked/libs/plus/mybatis-plus-3.1.2.jar:./hacked/libs/plus/mybatis-plus-annotation-3.1.2.jar:./hacked/libs/plus/mybatis-plus-boot-starter-3.1.2.jar:./hacked/libs/plus/mybatis-plus-core-3.1.2.jar:./hacked/libs/plus/mybatis-plus-extension-3.1.2.jar:./hacked/libs/actuator/spring-beans-5.3.14.jar:./hacked/libs/actuator/spring-core-5.3.14.jar:./hacked/libs/actuator/spring-jcl-5.3.14.jar -jar app/target/app-0.0.1-SNAPSHOT.jar
 ```
