@@ -27,29 +27,17 @@ User count: 3
 Country count: 151
 ```
 
-Case 1
-------
+Mybatis-plus helps to avoid exception
+-------------------------------------
 
-Use custom mybatis class(`org.apache.ibatis.executor.statement.PreparedStatementHandler`) to override the same on in `mybatis-3.5.9.jar`.
-
-```bash
-# Replace /Users/alphahinex/.m2/repository/org/mybatis/mybatis/3.5.9/mybatis-3.5.9.jar to your mybatis-3.5.9.jar file's path
-$ java -Xbootclasspath/a:./hacked/target/classes:/Users/alphahinex/.m2/repository/org/mybatis/mybatis/3.5.9/mybatis-3.5.9.jar -jar app/target/app-0.0.1-SNAPSHOT.jar
-```
-
-Access http://localhost:8080 and should find custom message `HACKED::PreparedStatementHandler.query` in console.
-
-Case 2
-------
-
-Use modified `CountryMapper.xml` to change sql in jar.
+If Mybatis-plus is used, we could do the same thing as in `mybatis-override` branch easier, 
+cause `com.baomidou.mybatisplus.core.MybatisConfiguration` already override `addMappedStatement` method.
 
 ```bash
-$ java -Xbootclasspath/a:./hacked/target/classes/sql -jar app/target/app-0.0.1-SNAPSHOT.jar "--mybatis.mapper-locations=classpath*:db/mapper/*Mapper.xml"
+$ java -Xbootclasspath/a:./hacked/target/classes/sql -jar app/target/app-0.0.1-SNAPSHOT.jar --mybatis-plus.mapper-locations=classpath*:db/mapper/*Mapper.xml
 ```
 
-Access http://localhost:8080 , notice that `Country count` changed from 151 to 26, 
-because sql in `hacked/src/main/resources/sql/db/mapper/CountryMapper.xml` is different with that in `app/src/main/resources/db/mapper/CountryMapper.xml`.
+Access http://localhost:8080 , notice that `Country count` changed from 151 to 26:
 
 ```bash
 $ curl localhost:8080
