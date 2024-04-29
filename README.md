@@ -1,7 +1,7 @@
 README
 ======
 
-Demo app to show how to use java `-Xbootclasspath/a` option.
+Demo app to show how to override mappers of jar.
 
 How to run
 ----------
@@ -53,12 +53,7 @@ to be thrown when loading same mapper file from two places.
          final String shortKey = getShortName(key);
 ```
 
-Then, use `-Xbootclasspath/a` option to set mapper file path, custom `Configuration` class path and origin mybatis jar, and run with the original spring boot jar:
-
-```bash
-# Replace /Users/alphahinex/.m2/repository/org/mybatis/mybatis/3.5.9/mybatis-3.5.9.jar to your mybatis-3.5.9.jar file's path
-$ java -Xbootclasspath/a:./hacked/target/classes/sql:./hacked/target/classes:/Users/alphahinex/.m2/repository/org/mybatis/mybatis/3.5.9/mybatis-3.5.9.jar -jar app/target/app-0.0.1-SNAPSHOT.jar --mybatis.mapper-locations=classpath*:db/mapper/*Mapper.xml
-```
+Then, add changed mappers to classpath of yourself.
 
 Access http://localhost:8080 , notice that `Country count` changed from 151 to 26, 
 and there is only `hacked/src/main/resources/sql/db/mapper/CountryMapper.xml` one mapper file.

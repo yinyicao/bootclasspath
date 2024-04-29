@@ -1015,6 +1015,9 @@ public class Configuration {
     public V put(String key, V value) {
       System.out.println("HACKED::Put key [" + key + "] with value [" + (value instanceof MappedStatement ? ((MappedStatement)value).getResource() : value) + "]");
       if (containsKey(key)) {
+        // 修改不让其抛出异常
+        // throw new IllegalArgumentException(name + " already contains value for " + key
+        //         + (conflictMessageProducer == null ? "" : conflictMessageProducer.apply(super.get(key), value)));
         System.out.println(name + " already contains value for " + key
             + (conflictMessageProducer == null ? "" : conflictMessageProducer.apply(super.get(key), value)));
         return null;
